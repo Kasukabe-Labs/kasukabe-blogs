@@ -7,6 +7,7 @@ import {
 import { sendToken } from "../helpers/sendToken";
 import { comparePassword, encryptPassword } from "../helpers/encryptPassword";
 import jwt from "jsonwebtoken";
+import { sendMail } from "../helpers/sendMail";
 
 export const signup = async (req: Request, res: Response) => {
   const { name, email, password, role, secret } = req.body;
@@ -49,6 +50,8 @@ export const signup = async (req: Request, res: Response) => {
   sendToken(res, accessToken, refreshToken, "User created successfully");
 
   await newUser.save();
+
+  sendMail(email);
 };
 
 export const login = async (req: Request, res: Response) => {
