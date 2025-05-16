@@ -42,7 +42,7 @@ const Tiptap = () => {
   });
 
   return (
-    <div className="py-10 -mt-56">
+    <div className="py-10 md:-mt-56 -mt-36 px-2">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>

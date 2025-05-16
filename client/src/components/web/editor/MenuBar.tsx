@@ -149,7 +149,7 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
 
   return (
     <div className="flex items-center justify-center w-full">
-      <div className="flex gap-3 items-center justify-center border border-zinc-300 rounded-xl bg-zinc-50 p-2">
+      <div className="flex flex-wrap gap-3 items-center justify-center border border-zinc-300 rounded-xl bg-zinc-50 p-2">
         {Options.map((option, index) => (
           <Toggle
             key={index}
