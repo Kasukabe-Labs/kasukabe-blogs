@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -12,17 +14,20 @@ const transporter = nodemailer.createTransport({
 
 export const sendMail = async (toEmail: string) => {
   try {
-    transporter.sendMail({
+    await transporter.sendMail({
+      from: `"Kasukabe CMS" <${process.env.SMTP_USER}>`,
       to: toEmail,
       subject: "Welcome to Kasukabe Blog CMS",
+      text: "Welcome to Kasukabe Blog CMS. Thank you for signing up. We are glad to have you!",
       html: `
-        <h1>Welcome to Kasukabe Blog CMS</h1>
-        <p>Thank you for signing up. We are glad to have you on board.</p>
-        <p>Best regards,</p>
-        <p>The Kasukabe Blog CMS Team</p>
-        <img src="" alt="Welcome Image" style="width: 100%; height: auto;"/>
-        <p style="font-size: 12px; color: #888;">This is an automated message. Please do not reply.</p>`,
+    <h1>Welcome to Kasukabe Blog CMS</h1>
+    <p>Thank you for signing up. We are glad to have you on board.</p>
+    <p>Best regards,</p>
+    <p>The Kasukabe Blog CMS Team</p>
+  `,
     });
+
+    console.log("✅ Email sent");
   } catch (error) {
     console.error("Error sending email:", error);
     throw new Error("Failed to send email");
