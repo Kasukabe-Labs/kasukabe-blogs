@@ -5,6 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import MenuBar from "./MenuBar";
 import Highlight from "@tiptap/extension-highlight";
+import Image from "@tiptap/extension-image";
 
 const Tiptap = () => {
   const editor = useEditor({
@@ -30,13 +31,20 @@ const Tiptap = () => {
         },
         multicolor: true,
       }),
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+        HTMLAttributes: {
+          class: "max-w-full h-auto",
+        },
+      }),
     ],
     immediatelyRender: false,
     content: "<p>Start writing your ideas 💡</p>",
     editorProps: {
       attributes: {
         class:
-          "min-h-400px border-2 border-zinc-300 bg-zinc-50 rounded-sm p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-4xl mx-auto p-5 mt-4 h-96  overflow-y-auto",
+          "min-h-400px border rounded-sm p-4 max-w-5xl mx-auto p-5 mt-4 h-[800px] overflow-y-auto",
       },
     },
   });
