@@ -32,7 +32,7 @@ const Tiptap = () => {
       }),
     ],
     immediatelyRender: false,
-    content: "<p>Hello World! 🌎️</p>",
+    content: "<p>Start writing your ideas 💡</p>",
     editorProps: {
       attributes: {
         class:
@@ -42,7 +42,7 @@ const Tiptap = () => {
   });
 
   return (
-    <div className="py-10 md:-mt-56 -mt-36 px-2">
+    <div className="py-10 px-2">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>

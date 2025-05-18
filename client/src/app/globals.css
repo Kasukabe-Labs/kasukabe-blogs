@@ -140,6 +140,9 @@
     @apply text-lg font-bold;
   }
   p {
-    @apply text-base;
+    @apply text-base  ;
+  }
+  .heading {
+    @apply text-4xl font-bold tracking-tighter
   }
 }
