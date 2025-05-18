@@ -36,7 +36,7 @@ const Tiptap = () => {
     editorProps: {
       attributes: {
         class:
-          "min-h-400px border-2 border-zinc-300 bg-zinc-50 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-4xl mx-auto p-5 mt-4 h-96",
+          "min-h-400px border-2 border-zinc-300 bg-zinc-50 rounded-sm p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-4xl mx-auto p-5 mt-4 h-96  overflow-y-auto",
       },
     },
   });
