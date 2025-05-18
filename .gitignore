@@ -1,0 +1,10 @@
+/server2/node_modules
+/server2/dist
+/server2/.env
+/server2/.env.local
+/server2/.env.development
+/client/node_modules
+/client/dist
+/client/.env
+/client/.env.local
+/client/.env.development
