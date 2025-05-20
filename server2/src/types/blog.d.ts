@@ -5,7 +5,7 @@ interface Tags {
 
 export interface IBlog extends Document {
   title: string;
-  content: string;
+  content: JSON;
   createdAt: Date;
   updatedAt: Date;
   imageUrl?: string;

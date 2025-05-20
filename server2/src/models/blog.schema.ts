@@ -8,7 +8,7 @@ const BlogSchema = new Schema<IBlog>(
       required: true,
     },
     content: {
-      type: String,
+      type: JSON,
       required: true,
     },
     imageUrl: {

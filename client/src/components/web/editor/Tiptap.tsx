@@ -8,6 +8,11 @@ import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
 
 const Tiptap = () => {
+  const savedContent =
+    typeof window !== "undefined" && localStorage.getItem("content")
+      ? JSON.parse(localStorage.getItem("content") || "")
+      : "";
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -39,8 +44,12 @@ const Tiptap = () => {
         },
       }),
     ],
-    immediatelyRender: false,
-    content: "<p>Start writing your ideas 💡</p>",
+    immediatelyRender: true,
+    content: savedContent,
+    onUpdate: ({ editor }) => {
+      const jsonContent = editor.getJSON();
+      localStorage.setItem("content", JSON.stringify(jsonContent));
+    },
     editorProps: {
       attributes: {
         class:
