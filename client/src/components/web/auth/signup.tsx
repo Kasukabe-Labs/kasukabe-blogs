@@ -64,7 +64,7 @@ export default function SignupPage() {
     <div className="min-h-screen w-full flex items-center justify-center flex-col">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col space-y-2 w-full max-w-sm p-4 text-left"
+        className="flex flex-col space-y-2 w-full max-w-sm p-4 text-left -mb-32"
       >
         <h1 className="heading">Signup</h1>
         <p className="tracking-tight text-gray-500">

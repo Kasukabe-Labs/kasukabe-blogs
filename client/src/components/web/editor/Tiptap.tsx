@@ -44,7 +44,7 @@ const Tiptap = () => {
         },
       }),
     ],
-    immediatelyRender: true,
+    immediatelyRender: false,
     content: savedContent,
     onUpdate: ({ editor }) => {
       const jsonContent = editor.getJSON();

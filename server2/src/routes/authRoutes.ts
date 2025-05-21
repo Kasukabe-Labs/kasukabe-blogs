@@ -6,26 +6,26 @@ import {
   refreshToken,
   signup,
 } from "../controllers/authController";
-const router = express.Router();
+const authRouter = express.Router();
 
-router.post("/signup", (req: Request, res: Response) => {
+authRouter.post("/signup", (req: Request, res: Response) => {
   signup(req, res);
 });
 
-router.post("/login", (req: Request, res: Response) => {
+authRouter.post("/login", (req: Request, res: Response) => {
   login(req, res);
 });
 
-router.post("/refresh", (req: Request, res: Response) => {
+authRouter.post("/refresh", (req: Request, res: Response) => {
   refreshToken(req, res);
 });
 
-router.post("/logout", (req: Request, res: Response) => {
+authRouter.post("/logout", (req: Request, res: Response) => {
   logout(req, res);
 });
 
-router.get("/me", (req: Request, res: Response) => {
+authRouter.get("/me", (req: Request, res: Response) => {
   me(req, res);
 });
 
-export default router;
+export default authRouter;
