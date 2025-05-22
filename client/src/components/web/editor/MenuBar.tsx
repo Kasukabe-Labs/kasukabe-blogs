@@ -295,7 +295,6 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
             </TooltipProvider>
           </Toggle>
         ))}
-        <Button variant={"ghost"}>Publish Blog 📝</Button>
       </div>
     </div>
   );
