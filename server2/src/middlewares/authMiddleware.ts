@@ -10,14 +10,13 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction
 ): void => {
-  const authHeader = req.headers.authorization;
+  const token = (req.headers.accessToken as string) || req.cookies.accessToken;
+  console.log("Token:", token);
 
-  if (!authHeader?.startsWith("Bearer ")) {
-    res.status(401).json({ message: "Not authorized" });
+  if (!token) {
+    res.status(401).json({ message: "No accessToken found" });
     return;
   }
-
-  const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_SECRET!) as any;
     req.user = { id: decoded.id, role: decoded.role };

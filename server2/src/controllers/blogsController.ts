@@ -36,7 +36,7 @@ export const postBlog = async (req: AuthRequest, res: Response) => {
 
     const formattedTags = tags.map((tag: { name: string }) => ({
       name: tag.name,
-      slug: generateSlug(tag.name),
+      slug: generateSlug(tag?.name),
     }));
 
     const newBlog = new BlogModel({
