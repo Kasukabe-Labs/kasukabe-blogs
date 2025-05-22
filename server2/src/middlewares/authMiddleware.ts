@@ -10,14 +10,15 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction
 ): void => {
-  const token = (req.headers.accessToken as string) || req.cookies.accessToken;
+  const token =
+    (req.headers.refreshToken as string) || req.cookies.refreshToken;
 
   if (!token) {
-    res.status(401).json({ message: "No accessToken found" });
+    res.status(401).json({ message: "No refreshToken found" });
     return;
   }
   try {
-    const decoded = jwt.verify(token, process.env.ACCESS_SECRET!) as any;
+    const decoded = jwt.verify(token, process.env.REFRESH_SECRET!) as any;
     req.user = { id: decoded.id, role: decoded.role };
     next();
   } catch (error) {

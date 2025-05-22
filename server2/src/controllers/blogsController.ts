@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import { BlogModel } from "../models/blog.schema";
 import { generateSlug } from "../helpers/generateSlug";
+import { IBlogPreview } from "../types/blog";
 
 export const postBlog = async (req: AuthRequest, res: Response) => {
   try {
@@ -62,5 +63,40 @@ export const postBlog = async (req: AuthRequest, res: Response) => {
     return res.status(500).json({
       message: "Internal server error",
     });
+  }
+};
+
+export const getAllBlogs = async (req: Request, res: Response) => {
+  try {
+    const limit = parseInt(req.query.limit as string) || 10;
+    const cursor = req.query.cursor as string;
+
+    let query = {};
+    if (cursor) {
+      query = { publishedAt: { $lt: new Date(cursor) } };
+    }
+    const blogs = await BlogModel.find(query)
+      .sort({ publishedAt: -1 })
+      .limit(limit + 1)
+      .select("title author publishedAt slug")
+      .lean();
+
+    const hasNextPage = blogs.length > limit;
+    const paginatedBlogs = hasNextPage ? blogs.slice(0, -1) : blogs;
+
+    res.status(200).json({
+      message: "Blogs fetched successfully",
+      blogs: paginatedBlogs,
+      nextCursor: hasNextPage
+        ? paginatedBlogs[paginatedBlogs.length - 1].publishedAt
+        : null,
+    });
+    return;
+  } catch (error) {
+    console.error("Error creating blog:", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+    return;
   }
 };

@@ -74,7 +74,7 @@ const Tiptap = () => {
         inline: true,
         allowBase64: true,
         HTMLAttributes: {
-          class: "max-w-full h-auto",
+          class: "max-w-[30%] h-auto",
         },
       }),
     ],

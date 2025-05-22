@@ -16,3 +16,10 @@ export interface IBlog extends Document {
   publishedAt?: Date;
   isDraft: boolean;
 }
+
+export interface IBlogPreview {
+  title: string;
+  author: string;
+  publishedAt: Date;
+  slug: string;
+}
