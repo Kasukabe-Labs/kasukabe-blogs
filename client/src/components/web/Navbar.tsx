@@ -5,6 +5,9 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { LogOut } from "lucide-react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Navbar() {
   const router = useRouter();
@@ -34,22 +37,33 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-16 absolute top-6 z-10">
-      <div className="md:w-[30%] p-4 gap-4  rounded-xl flex justify-center items-center">
+    <div className="flex justify-between items-center w-full h-16 absolute border-b z-10 px-4">
+      <div className="gap-4 flex justify-center items-center">
         <Link href={"/explore"}>
-          <Button size={"sm"} variant={"outline"}>
+          <Button className="cursor-pointer" size={"sm"} variant={"link"}>
             Explore
           </Button>
         </Link>
         <Link href={"/write"}>
-          <Button size={"sm"} variant={"outline"}>
+          <Button className="cursor-pointer" size={"sm"} variant={"link"}>
             Write
           </Button>
         </Link>
+      </div>
+      <div className="gap-4 flex justify-center items-center">
+        <Avatar>
+          <AvatarImage src={user?.pfp} />
+          <AvatarFallback>{user?.name}</AvatarFallback>
+        </Avatar>
 
         {user ? (
-          <Button size="sm" variant="destructive" onClick={handleLogout}>
-            Logout
+          <Button
+            className="cursor-pointer"
+            size="sm"
+            variant="destructive"
+            onClick={handleLogout}
+          >
+            <LogOut />
           </Button>
         ) : (
           <Link href="/signup">

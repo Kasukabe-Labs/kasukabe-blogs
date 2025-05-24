@@ -8,8 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
+
+  const router = useRouter()
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,6 +58,7 @@ export default function SignupPage() {
       }
 
       toast.success(data.message || "Signup successful");
+      router.push("/explore")
     } catch (err) {
       toast.error("Something went wrong. Please try again later.");
     }

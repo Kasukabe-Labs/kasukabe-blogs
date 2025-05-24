@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { IUser } from "../types/user";
 
 const UserSchema = new Schema<IUser>(
@@ -11,6 +11,10 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
       unique: true,
+    },
+    pfp: {
+      type: String,
+      default: "https://github.com/shadcn.png"
     },
     password: {
       type: String,
