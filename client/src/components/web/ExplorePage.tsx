@@ -29,7 +29,7 @@ export default function ExplorePage() {
       queryKey: ["blogs"],
       queryFn: async ({ pageParam = null }) => {
         const query = pageParam ? `?limit=3&cursor=${pageParam}` : `?limit=3`;
-        const res = await fetch(`${URL}$tans{query}`);
+        const res = await fetch(`${URL}${query}`);
         return res.json();
       },
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
