@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import BlogCard from "./blog/card";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface Blog {
   _id: string;
@@ -21,33 +22,21 @@ const bgColors = [
 ];
 
 export default function ExplorePage() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [cursor, setCursor] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [hasNext, setHasNext] = useState(true);
-
   const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/allBlogs`;
 
-  const fetchBlogs = async () => {
-    setLoading(true);
-    const query = cursor ? `?limit=4&cursor=${cursor}` : `?limit=3`;
-    const res = await fetch(`${URL}${query}`);
-    const data = await res.json();
-    setBlogs((prev) => [...prev, ...data.blogs]);
-    setCursor(data.nextCursor);
-    setHasNext(Boolean(data.nextCursor));
-    setLoading(false);
-  };
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["blogs"],
+      queryFn: async ({ pageParam = null }) => {
+        const query = pageParam ? `?limit=3&cursor=${pageParam}` : `?limit=3`;
+        const res = await fetch(`${URL}$tans{query}`);
+        return res.json();
+      },
+      getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+      initialPageParam: null,
+    });
 
-  const nextCursorHandler = () => {
-    if (hasNext && !loading) {
-      fetchBlogs();
-    }
-  };
-
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
+  const blogs = data?.pages.flatMap((page) => page.blogs) ?? [];
 
   return (
     <div className="w-full justify-center items-center flex flex-col">
@@ -72,10 +61,14 @@ export default function ExplorePage() {
       <Button
         variant="secondary"
         className="my-4"
-        onClick={nextCursorHandler}
-        disabled={!hasNext || loading}
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
       >
-        {loading ? "Loading..." : hasNext ? "Load more" : "No more blogs"}
+        {isFetchingNextPage
+          ? "Loading..."
+          : hasNextPage
+          ? "Load more"
+          : "No more blogs"}
       </Button>
     </div>
   );
