@@ -35,10 +35,12 @@ export default function Navbar() {
 
   return (
     <div className="flex justify-center items-center w-full h-16 absolute top-6 z-10">
-      <div className="md:w-[30%] p-4 gap-4 bg-zinc-100 rounded-xl flex justify-center items-center">
-        <Button size={"sm"} variant={"outline"}>
-          Explore
-        </Button>
+      <div className="md:w-[30%] p-4 gap-4  rounded-xl flex justify-center items-center">
+        <Link href={"/explore"}>
+          <Button size={"sm"} variant={"outline"}>
+            Explore
+          </Button>
+        </Link>
         <Link href={"/write"}>
           <Button size={"sm"} variant={"outline"}>
             Write

@@ -1,11 +1,5 @@
-import Tiptap from "@/components/web/editor/Tiptap";
-import Hero from "@/components/web/Hero";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div>
-      <Hero />
-      <Tiptap />
-    </div>
-  );
+  redirect("/explore");
 }
