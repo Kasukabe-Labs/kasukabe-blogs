@@ -43,11 +43,13 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
   }
 
   const highlightColors = [
-    { name: "Yellow", color: "#fef08a" },
-    { name: "Green", color: "#bbf7d0" },
-    { name: "Pink", color: "#fbcfe8" },
-    { name: "Blue", color: "#bfdbfe" },
-    { name: "Orange", color: "#fed7aa" },
+    { name: "Deep Yellow", color: "#b59f3b" },
+    { name: "Teal", color: "#0f766e" },
+    { name: "Plum", color: "#783c96" },
+    { name: "Indigo", color: "#4338ca" },
+    { name: "Crimson", color: "#b91c1c" },
+    { name: "Rust Orange", color: "#b45309" },
+    { name: "Forest Green", color: "#166534" },
   ];
 
   const Options = [
@@ -129,78 +131,78 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
       pressed: editor.isActive("redo"),
       title: "Redo",
     },
-    {
-      icon: (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className={`size-4 ${
-                editor.isActive("image") ? "bg-zinc-200" : ""
-              }`}
-            >
-              <Image className="size-4 text-black" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-72 p-4 space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Image URL
-              </label>
-              <input
-                type="text"
-                placeholder="https://example.com/image.jpg"
-                className="w-full border border-zinc-300 rounded-md px-2 py-1 text-sm"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    const target = e.target as HTMLInputElement;
-                    if (target.value) {
-                      editor
-                        ?.chain()
-                        .focus()
-                        .setImage({ src: target.value })
-                        .run();
-                      target.value = "";
-                    }
-                  }
-                }}
-              />
-            </div>
+    // {
+    //   icon: (
+    //     <Popover>
+    //       <PopoverTrigger asChild>
+    //         <Button
+    //           variant="ghost"
+    //           size="icon"
+    //           className={`size-4 ${
+    //             editor.isActive("image") ? "bg-zinc-200" : ""
+    //           }`}
+    //         >
+    //           <Image className="size-4" />
+    //         </Button>
+    //       </PopoverTrigger>
+    //       <PopoverContent className="w-72 p-4 space-y-4">
+    //         <div>
+    //           <label className="block text-sm font-medium mb-1">
+    //             Image URL
+    //           </label>
+    //           <input
+    //             type="text"
+    //             placeholder="https://example.com/image.jpg"
+    //             className="w-full border border-zinc-300 rounded-md px-2 py-1 text-sm"
+    //             onKeyDown={(e) => {
+    //               if (e.key === "Enter") {
+    //                 const target = e.target as HTMLInputElement;
+    //                 if (target.value) {
+    //                   editor
+    //                     ?.chain()
+    //                     .focus()
+    //                     .setImage({ src: target.value })
+    //                     .run();
+    //                   target.value = "";
+    //                 }
+    //               }
+    //             }}
+    //           />
+    //         </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Upload from Device
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-zinc-100 file:text-zinc-700 hover:file:bg-zinc-200"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                      if (typeof reader.result === "string") {
-                        editor
-                          ?.chain()
-                          .focus()
-                          .setImage({ src: reader.result })
-                          .run();
-                      }
-                    };
-                    reader.readAsDataURL(file);
-                  }
-                }}
-              />
-            </div>
-          </PopoverContent>
-        </Popover>
-      ),
-      onClick: () => {},
-      pressed: editor.isActive("image"),
-      title: "Image",
-    },
+    //         <div>
+    //           <label className="block text-sm font-medium mb-1">
+    //             Upload from Device
+    //           </label>
+    //           <input
+    //             type="file"
+    //             accept="image/*"
+    //             className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-zinc-100 file:text-zinc-700 hover:file:bg-zinc-200"
+    //             onChange={(e) => {
+    //               const file = e.target.files?.[0];
+    //               if (file) {
+    //                 const reader = new FileReader();
+    //                 reader.onload = () => {
+    //                   if (typeof reader.result === "string") {
+    //                     editor
+    //                       ?.chain()
+    //                       .focus()
+    //                       .setImage({ src: reader.result })
+    //                       .run();
+    //                   }
+    //                 };
+    //                 reader.readAsDataURL(file);
+    //               }
+    //             }}
+    //           />
+    //         </div>
+    //       </PopoverContent>
+    //     </Popover>
+    //   ),
+    //   onClick: () => {},
+    //   pressed: editor.isActive("image"),
+    //   title: "Image",
+    // },
     {
       icon: <SeparatorHorizontal className="size-4" />,
       onClick: () => editor.chain().focus().setHardBreak().run(),
@@ -216,7 +218,7 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
               size="icon"
               className={`size-4 ${editor.isActive("highlight")}`}
             >
-              <Highlighter className="size-4 text-black" />
+              <Highlighter className="size-4" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-2 grid grid-cols-5 gap-2">

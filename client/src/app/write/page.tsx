@@ -3,11 +3,7 @@ import React from "react";
 
 export default function page() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center flex-col mt-[70px] ">
-      {/* <h1 className="heading">Write</h1>
-      <p className="tracking-tight text-gray-500">
-        Write your thoughts and ideas, nerd!
-      </p> */}
+    <div className="min-h-screen pt-16 w-full flex items-center justify-center flex-col">
       <Tiptap />
     </div>
   );
