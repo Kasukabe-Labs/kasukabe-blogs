@@ -9,19 +9,34 @@ import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FaGoogle } from "react-icons/fa6";
+import { Separator } from "@/components/ui/separator";
 
 export default function SignupPage() {
-
-  const router = useRouter()
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("admin");
+  const [role, setRole] = useState("user");
   const [adminSecret, setAdminSecret] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showCnfPassword, setShowCnfPassword] = useState(false);
   const [showAdminSecret, setShowAdminSecret] = useState(false);
+  const [isGoogle, setIsGoogle] = useState(false);
+
+  const url = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  const googleHandler = () => {
+    try {
+      setIsGoogle(true);
+      router.push(`${url}/auth/google`);
+    } catch (error) {
+      toast.error("Google auth error!");
+    } finally {
+      setIsGoogle(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,23 +47,20 @@ export default function SignupPage() {
     }
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signup`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: username,
-            email,
-            password,
-            role,
-            secret: role === "admin" ? adminSecret : undefined,
-          }),
-        }
-      );
+      const res = await fetch(`${url}/auth/signup`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: username,
+          email,
+          password,
+          role,
+          secret: role === "admin" ? adminSecret : undefined,
+        }),
+      });
 
       const data = await res.json();
 
@@ -58,22 +70,28 @@ export default function SignupPage() {
       }
 
       toast.success(data.message || "Signup successful");
-      router.push("/explore")
+      router.push("/explore");
     } catch (err) {
       toast.error("Something went wrong. Please try again later.");
     }
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center flex-col">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col space-y-2 w-full max-w-sm p-4 text-left -mb-32"
-      >
+    <div className="min-h-screen pt-18 w-full flex items-center justify-center flex-col">
+      <div className="w-full max-w-xs text-left">
         <h1 className="heading">Signup</h1>
         <p className="tracking-tight text-gray-500">
           Get started with your credentials
         </p>
+        <Button className="w-full cursor-pointer mt-4" onClick={googleHandler}>
+          Enter with Google <FaGoogle />
+        </Button>
+        <Separator className="mt-6" />
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col space-y-2 w-full max-w-sm p-4 text-left -mb-32"
+      >
         <div className="mt-6 space-y-4">
           <Input
             type="text"
@@ -124,11 +142,7 @@ export default function SignupPage() {
             signup as admin
           </p>
 
-          <RadioGroup
-            value={role}
-            onValueChange={(val) => setRole(val)}
-            defaultValue="admin"
-          >
+          <RadioGroup value={role} onValueChange={(val) => setRole(val)}>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="admin" id="admin" />
               <Label htmlFor="admin">Admin</Label>

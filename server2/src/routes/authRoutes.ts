@@ -1,5 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import {
+  googleAuthCallback,
+  googleAuthRedirect,
   login,
   logout,
   me,
@@ -26,6 +28,14 @@ authRouter.post("/logout", (req: Request, res: Response) => {
 
 authRouter.get("/me", (req: Request, res: Response) => {
   me(req, res);
+});
+
+authRouter.get("/google", (req: Request, res: Response) => {
+  googleAuthRedirect(req, res);
+});
+
+authRouter.get("/google/callback", (req: Request, res: Response) => {
+  googleAuthCallback(req, res);
 });
 
 export default authRouter;

@@ -20,8 +20,8 @@ export const sendToken = (
     maxAge: 15 * 60 * 1000, // 15 min
   });
 
-  res.status(200).json({
-    message:
-      message || "Login successfull & both tokens set as httpOnly cookies",
-  });
+  // res.status(200).json({
+  //   message:
+  //     message || "Login successfull & both tokens set as httpOnly cookies",
+  // });
 };

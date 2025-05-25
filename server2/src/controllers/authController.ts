@@ -8,6 +8,7 @@ import { sendToken } from "../helpers/sendToken";
 import { comparePassword, encryptPassword } from "../helpers/encryptPassword";
 import jwt from "jsonwebtoken";
 import { sendMail } from "../helpers/sendMail";
+import { getGoogleAuthUrl, getGoogleUser } from "./googleAuth";
 
 export const signup = async (req: Request, res: Response) => {
   const { name, email, password, role, secret } = req.body;
@@ -51,7 +52,7 @@ export const signup = async (req: Request, res: Response) => {
 
   await newUser.save();
 
-  sendMail(email);
+  // sendMail(email);
 };
 
 export const login = async (req: Request, res: Response) => {
@@ -138,5 +139,43 @@ export const me = async (req: Request, res: Response) => {
     });
   } catch (error) {
     return res.status(403).json({ message: "Invalid or expired token" });
+  }
+};
+
+//google oauth2 login/signup
+export const googleAuthRedirect = (_req: Request, res: Response) => {
+  const url = getGoogleAuthUrl();
+  res.redirect(url);
+};
+
+export const googleAuthCallback = async (req: Request, res: Response) => {
+  const code = req.query.code as string;
+
+  if (!code) return res.status(400).json({ message: "Code is missing" });
+
+  try {
+    const googleUser = await getGoogleUser(code);
+    const existingUser = await UserModel.findOne({ email: googleUser.email });
+
+    let user = existingUser;
+
+    if (!user) {
+      user = await UserModel.create({
+        email: googleUser.email,
+        pfp: googleUser.picture,
+        name: googleUser.name,
+        password: "GOOGLE_USER",
+        role: "user",
+      });
+    }
+
+    const refreshToken = generateRefreshToken(user._id.toString(), user.role);
+    const accessToken = generateAccessToken(user._id.toString(), user.role);
+
+    sendToken(res, accessToken, refreshToken, "Google login successful");
+    res.redirect(`${process.env.CLIENT_URL}/explore`);
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    res.status(500).json({ message: "Google auth failed" });
   }
 };
