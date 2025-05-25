@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import { BlogModel } from "../models/blog.schema";
 import { generateSlug } from "../helpers/generateSlug";
-import { IBlogPreview } from "../types/blog";
 
 export const postBlog = async (req: AuthRequest, res: Response) => {
   try {
@@ -98,5 +97,44 @@ export const getAllBlogs = async (req: Request, res: Response) => {
       message: "Internal server error",
     });
     return;
+  }
+};
+
+export const getSingleBlog = async (req: AuthRequest, res: Response) => {
+  try {
+    // const authorId = req.user?.id;
+    // if (!authorId) {
+    //   return res.status(401).json({
+    //     message: "Not authorized",
+    //   });
+    // }
+
+    const { slug } = req.params;
+
+    if (!slug) {
+      return res.status(400).json({
+        message: "Blog slug is required",
+      });
+    }
+
+    const blog = await BlogModel.findOne({ slug })
+      .populate("author", "name email pfp")
+      .lean();
+
+    if (!blog) {
+      return res.status(404).json({
+        message: "Blog not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Blog fetched successfully",
+      blog,
+    });
+  } catch (error) {
+    console.error("Error fetching single blog:", error);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
   }
 };
