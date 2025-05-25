@@ -155,3 +155,13 @@
     @apply text-2xl font-bold tracking-tight
   }
 }
+
+.tiptap h1.is-editor-empty:first-child::before,
+.tiptap h2.is-editor-empty:first-child::before,
+.tiptap h3.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #adb5bd;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

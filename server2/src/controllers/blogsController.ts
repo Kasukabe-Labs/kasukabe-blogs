@@ -119,7 +119,7 @@ export const getSingleBlog = async (req: AuthRequest, res: Response) => {
 
     const blog = await BlogModel.findOne({ slug })
       .populate("author", "name email pfp")
-      .lean();
+    
 
     if (!blog) {
       return res.status(404).json({

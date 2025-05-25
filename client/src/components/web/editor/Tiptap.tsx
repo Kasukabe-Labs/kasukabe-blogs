@@ -10,29 +10,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { predefinedTags } from "@/helpers/tags";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Send, FileEdit, Tag, Plus, X } from "lucide-react";
+import { Placeholder } from "@tiptap/extension-placeholder";
 import PublishSection from "./PublishSection";
 
 const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/create`;
@@ -89,24 +67,37 @@ const Tiptap = () => {
           class: "max-w-[30%] h-auto",
         },
       }),
+      Placeholder.configure({
+        placeholder: ({ node }) => {
+          if (node.type.name === "heading") {
+            return "Start writing here...";
+          }
+          return "Can you add some further context?";
+        },
+        includeChildren: true,
+      }),
     ],
     immediatelyRender: false,
-    content: savedContent,
+    content: savedContent || "<h1></h1>",
     onUpdate: ({ editor }) => {
       const jsonContent = editor.getJSON();
-      const headingNode = jsonContent.content?.find(
-        (node) => node.type === "heading" && node.attrs?.level === 2
-      );
-      const extractedTitle =
-        headingNode?.content?.map((part) => part.text).join("") ?? "";
+      let headingText = "";
 
-      setTitle(extractedTitle);
+      for (const block of jsonContent.content || []) {
+        if (block.type === "heading" && block.content) {
+          headingText = block.content.map((c) => c.text).join("");
+          break;
+        }
+      }
+
+      setTitle(headingText);
+
       localStorage.setItem("content", JSON.stringify(jsonContent));
     },
     editorProps: {
       attributes: {
         class:
-          "min-h-96 border rounded-md p-4 max-w-5xl mx-auto focus:outline-none focus:ring-1 focus:ring-zinc-600 focus:border-transparent prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto",
+          "prose max-w-5xl h-screen outline-none focus:outline-none focus:ring-0 border-none focus:border-none",
       },
     },
   });
@@ -168,11 +159,6 @@ const Tiptap = () => {
 
   return (
     <div className="min-h-screen p-4 -mb-32 space-y-4">
-      <MenuBar editor={editor} />
-
-      <EditorContent editor={editor} />
-
-      {/* Publish Section */}
       <PublishSection
         addCustomTag={addCustomTag}
         customTag={customTag}
@@ -187,6 +173,9 @@ const Tiptap = () => {
         title={title}
         toggleTag={toggleTag}
       />
+      <MenuBar editor={editor} />
+
+      <EditorContent editor={editor} />
     </div>
   );
 };

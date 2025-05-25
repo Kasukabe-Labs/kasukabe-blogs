@@ -27,7 +27,7 @@ export default function BlogCard({
 
   return (
     <div className="w-full  p-4">
-      <Link href={slug} className="cursor-pointer">
+      <Link href={`/explore/${slug}`} className="cursor-pointer">
         <div className="h-full flex flex-col">
           <div className={cn(bgColor, "w-72 h-72 rounded-sm mb-4")}></div>
 

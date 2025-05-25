@@ -1,3 +1,5 @@
+// app/explore/layout.tsx
+
 import type { ReactNode } from "react";
 
 export default function ExploreLayout({ children }: { children: ReactNode }) {
