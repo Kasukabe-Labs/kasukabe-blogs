@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/web/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { TanstackProvider } from "@/providers/TansackQueryProvider";
+import NavbarProvider from "@/providers/NavbarProvider";
 
 export const metadata: Metadata = {
   title: "Kasukabe Blogs",
@@ -17,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body>
-        <Navbar />
+        <NavbarProvider />
         <Toaster richColors position="top-right" />
         <TanstackProvider>{children}</TanstackProvider>
       </body>

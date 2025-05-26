@@ -38,7 +38,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex justify-between items-center w-full h-16 absolute border-b z-10 px-4">
+    <div className="flex justify-between items-center w-full h-16 absolute border-b z-20 px-4">
       <div className="gap-4 flex justify-center items-center">
         <Link href={"/explore"}>
           <Button className="cursor-pointer" size={"sm"} variant={"link"}>
@@ -48,6 +48,11 @@ export default function Navbar() {
         <Link href={"/write"}>
           <Button className="cursor-pointer" size={"sm"} variant={"link"}>
             Write
+          </Button>
+        </Link>
+        <Link href={"/dashboard"}>
+          <Button className="cursor-pointer" size={"sm"} variant={"link"}>
+            Dashboard
           </Button>
         </Link>
       </div>
