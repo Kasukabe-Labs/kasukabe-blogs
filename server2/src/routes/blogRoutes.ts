@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import {
+  allBlogsOfUser,
   getAllBlogs,
   getSingleBlog,
   postBlog,
@@ -15,6 +16,14 @@ blogRouter.post("/create", authMiddleware, (req: Request, res: Response) => {
 blogRouter.get("/allBlogs", (req: Request, res: Response) => {
   getAllBlogs(req, res);
 });
+
+blogRouter.get(
+  "/allUserBlogs",
+  authMiddleware,
+  (req: Request, res: Response) => {
+    allBlogsOfUser(req, res);
+  }
+);
 
 blogRouter.get("/:slug", (req: Request, res: Response) => {
   getSingleBlog(req, res);

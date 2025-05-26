@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import { BlogModel } from "../models/blog.schema";
 import { generateSlug } from "../helpers/generateSlug";
+import mongoose from "mongoose";
 
 export const postBlog = async (req: AuthRequest, res: Response) => {
   try {
@@ -117,9 +118,10 @@ export const getSingleBlog = async (req: AuthRequest, res: Response) => {
       });
     }
 
-    const blog = await BlogModel.findOne({ slug })
-      .populate("author", "name email pfp")
-    
+    const blog = await BlogModel.findOne({ slug }).populate(
+      "author",
+      "name email pfp"
+    );
 
     if (!blog) {
       return res.status(404).json({
@@ -136,5 +138,41 @@ export const getSingleBlog = async (req: AuthRequest, res: Response) => {
     return res.status(500).json({
       message: "Internal server error",
     });
+  }
+};
+
+export const allBlogsOfUser = async (req: AuthRequest, res: Response) => {
+  try {
+    const authorId = req.user?.id;
+    if (!authorId) {
+      return res.status(401).json({
+        message: "Not authorized",
+      });
+    }
+
+    const blogs = await BlogModel.find({
+      author: new mongoose.Types.ObjectId(authorId),
+    })
+      .sort({ publishedAt: -1 })
+      .select("title author publishedAt slug");
+
+    if (blogs.length === 0) {
+      res.status(404).json({
+        message: "No blogs found for this user",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Fetching successfull",
+      blogs,
+    });
+    return;
+  } catch (error) {
+    console.error("Error fetching user's blog:", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+    return;
   }
 };

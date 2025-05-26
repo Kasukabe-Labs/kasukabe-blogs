@@ -52,6 +52,11 @@ export const signup = async (req: Request, res: Response) => {
 
   await newUser.save();
 
+  res.status(201).json({
+    message: "User created successfully",
+  });
+
+  return;
   // sendMail(email);
 };
 
@@ -84,6 +89,11 @@ export const login = async (req: Request, res: Response) => {
   const accessToken = generateAccessToken(user._id.toString(), user.role);
 
   sendToken(res, accessToken, refreshToken);
+
+  res.status(200).json({
+    message: "Login successful",
+  });
+  return;
 };
 
 export const refreshToken = async (req: Request, res: Response) => {
@@ -173,7 +183,9 @@ export const googleAuthCallback = async (req: Request, res: Response) => {
     const accessToken = generateAccessToken(user._id.toString(), user.role);
 
     sendToken(res, accessToken, refreshToken, "Google login successful");
+
     res.redirect(`${process.env.CLIENT_URL}/explore`);
+    return;
   } catch (error) {
     console.error("Google Auth Error:", error);
     res.status(500).json({ message: "Google auth failed" });
