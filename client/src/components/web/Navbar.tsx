@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "../ui/skeleton";
 
 export default function Navbar() {
   const router = useRouter();
@@ -51,10 +52,14 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="gap-4 flex justify-center items-center">
-        <Avatar>
-          <AvatarImage src={user?.pfp} />
-          <AvatarFallback>{user?.name}</AvatarFallback>
-        </Avatar>
+        {loading ? (
+          <Skeleton className="h-10 w-10 rounded-full" />
+        ) : (
+          <Avatar>
+            <AvatarImage src={user?.pfp} />
+            <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+          </Avatar>
+        )}
 
         {user ? (
           <Button
