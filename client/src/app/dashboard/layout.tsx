@@ -2,20 +2,30 @@
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/web/dashboard/AppSidebar";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("blogs");
+
+  useEffect(() => {
+    if (pathname.includes("myBlogs")) {
+      setActiveSection("blogs");
+    } else if (pathname.includes("addToSite")) {
+      setActiveSection("add");
+    }
+  }, [pathname]);
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen w-full">
         <AppSidebar
           activeSection={activeSection}
           setActiveSection={setActiveSection}
         />
         <main className="flex-1 p-4">
-          <SidebarTrigger />
+          <SidebarTrigger className="z-30" />
           {children}
         </main>
       </div>

@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
 import {
   allBlogsOfUser,
+  deleteBlogController,
   getAllBlogs,
   getSingleBlog,
   postBlog,
+  updateBlogController,
 } from "../controllers/blogsController";
 import { authMiddleware } from "../middlewares/authMiddleware";
 
@@ -27,6 +29,14 @@ blogRouter.get(
 
 blogRouter.get("/:slug", (req: Request, res: Response) => {
   getSingleBlog(req, res);
+});
+
+blogRouter.patch("/:slug", authMiddleware, (req: Request, res: Response) => {
+  updateBlogController(req, res);
+});
+
+blogRouter.delete("/:slug", authMiddleware, (req: Request, res: Response) => {
+  deleteBlogController(req, res);
 });
 
 export default blogRouter;

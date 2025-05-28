@@ -1,20 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import BlogCard from "./blog/card";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-interface Blog {
-  _id: string;
-  title: string;
-  slug: string;
-  author: string;
-  publishedAt: string;
-}
-
-const bgColors = [
+export const bgColors = [
   "bg-gradient-to-r from-amber-200 to-yellow-400",
   "bg-gradient-to-r from-blue-200 to-blue-400",
   "bg-gradient-to-r from-green-200 to-green-400",

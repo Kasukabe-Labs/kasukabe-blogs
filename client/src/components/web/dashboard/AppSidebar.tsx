@@ -19,6 +19,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function AppSidebar({
   activeSection,
@@ -42,15 +44,25 @@ export default function AppSidebar({
 
   const { user, loading, setUser } = useAuth();
 
+  const router = useRouter();
+
+  const handleClick = (id: string) => {
+    setActiveSection(id);
+    if (id === "blogs") router.push("/dashboard/myBlogs");
+    if (id === "add") router.push("/dashboard/addToSite");
+  };
+
   return (
     <Sidebar className="border-r border-muted">
       <SidebarHeader>
         <div className="flex items-center gap-3 py-4">
-          <img
-            src="/logo.png"
-            alt="Logo"
-            className="w-12 h-12 border border-muted rounded-md object-contain"
-          />
+          <Link href={"/explore"} className="cursor-pointer">
+            <img
+              src="/logo.png"
+              alt="Logo"
+              className="w-12 h-12 border border-muted rounded-md object-contain"
+            />
+          </Link>
           <div>
             <h1 className="text-xl font-semibold">Dashboard</h1>
             <p className="text-sm text-muted-foreground">Manage your blogs.</p>
@@ -69,7 +81,7 @@ export default function AppSidebar({
                       ? "bg-accent text-accent-foreground"
                       : ""
                   }`}
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => handleClick(item.id)}
                 >
                   <item.icon className="mr-2 h-4 w-4" />
                   {item.title}
@@ -78,7 +90,7 @@ export default function AppSidebar({
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        <SidebarGroup>
+        {/* <SidebarGroup>
           <SidebarGroupLabel>Settings</SidebarGroupLabel>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -92,7 +104,7 @@ export default function AppSidebar({
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter className="border-t border-muted items-start">
         <div className="flex items-center gap-3">
