@@ -153,6 +153,7 @@
   .text-xxl {
     @apply text-2xl font-bold tracking-tight
   }
+  
 }
 
 .tiptap h1.is-editor-empty:first-child::before,

@@ -23,7 +23,7 @@ export default function BreadcrumbLayer() {
     return null;
   }
   return (
-    <div className="w-full px-4 py-6 bg-transparent sticky top-2 justify-center items-center z-30 flex">
+    <div className="w-full px-4 bg-transparent sticky top-2 justify-center items-center z-30 flex">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

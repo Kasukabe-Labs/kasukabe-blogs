@@ -13,11 +13,13 @@ export default function NavbarProvider() {
     "/dashboard/addToSite",
     "/login",
     "/signup",
+    "/preview",
   ];
 
   const isDynamicMyBlogRoute =
-    pathname.startsWith("/dashboard/myBlogs/") &&
-    pathname !== "/dashboard/myBlogs";
+    (pathname.startsWith("/dashboard/myBlogs/") &&
+      pathname !== "/dashboard/myBlogs") ||
+    pathname.startsWith("/preview/");
 
   if (hideRoutes.includes(pathname) || isDynamicMyBlogRoute) {
     return null;
