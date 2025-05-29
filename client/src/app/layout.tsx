@@ -4,6 +4,7 @@ import Navbar from "@/components/web/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { TanstackProvider } from "@/providers/TansackQueryProvider";
 import NavbarProvider from "@/providers/NavbarProvider";
+import BreadcrumbLayer from "@/components/web/BreadcrumbLayer";
 
 export const metadata: Metadata = {
   title: "Kasukabe Blogs",

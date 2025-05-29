@@ -1,6 +1,7 @@
 "use client";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import BreadcrumbLayer from "@/components/web/BreadcrumbLayer";
 import AppSidebar from "@/components/web/dashboard/AppSidebar";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,13 +20,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full relative">
         <AppSidebar
           activeSection={activeSection}
           setActiveSection={setActiveSection}
         />
-        <main className="flex-1 p-4">
-          <SidebarTrigger className="z-30" />
+        <main className="flex-1 p-4 relative">
+          <SidebarTrigger className="z-50" />
+          <BreadcrumbLayer />
           {children}
         </main>
       </div>

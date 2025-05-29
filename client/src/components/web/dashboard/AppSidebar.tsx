@@ -13,14 +13,14 @@ import {
   SidebarMenuButton,
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
-import { FileText, Plus, Settings } from "lucide-react";
+import { FileText, Pen, Plus, Settings } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { MdOutlineTravelExplore } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { FaInternetExplorer } from "react-icons/fa6";
 
 export default function AppSidebar({
   activeSection,
@@ -39,6 +39,21 @@ export default function AppSidebar({
       title: "Add to Site",
       icon: Plus,
       id: "add",
+    },
+  ];
+
+  const linkItems = [
+    {
+      id: 1,
+      title: "Explore Blogs",
+      href: "/",
+      icon: MdOutlineTravelExplore,
+    },
+    {
+      id: 2,
+      title: "Write Blog",
+      href: "/write",
+      icon: Pen,
     },
   ];
 
@@ -90,21 +105,21 @@ export default function AppSidebar({
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        {/* <SidebarGroup>
-          <SidebarGroupLabel>Settings</SidebarGroupLabel>
+        <SidebarGroup>
+          <SidebarGroupLabel>Explore All</SidebarGroupLabel>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                onClick={() => {
-                  // Handle settings click
-                }}
-              >
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {linkItems.map((item) => (
+              <SidebarMenuItem key={item.id}>
+                <Link href={item.href}>
+                  <SidebarMenuButton className="flex  gap-2 w-full">
+                    <item.icon className="mr-2 h-4 w-4" />
+                    {item.title}
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+            ))}
           </SidebarMenu>
-        </SidebarGroup> */}
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="border-t border-muted items-start">
         <div className="flex items-center gap-3">
