@@ -18,8 +18,16 @@ export async function fetchUserBlogs(): Promise<
     }
 
     return response.data;
-  } catch (error) {
-    toast.error("Internal server error. Please be patient");
+  } catch (error: any) {
+    if (
+      error.response &&
+      error.response.status === 404 &&
+      error.response.data?.message === "No blogs found for this user"
+    ) {
+      toast.warning("You don't have any blogs!");
+    } else {
+      toast.error("Internal server error. Please be patient");
+    }
     console.error(error);
     return;
   }
