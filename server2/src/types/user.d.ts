@@ -3,5 +3,6 @@ export interface IUser extends Document {
   email: string;
   pfp: string;
   password: string;
+  google: boolean;
   role: "admin" | "user";
 }

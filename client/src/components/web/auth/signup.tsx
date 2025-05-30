@@ -23,20 +23,6 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showCnfPassword, setShowCnfPassword] = useState(false);
   const [showAdminSecret, setShowAdminSecret] = useState(false);
-  const [isGoogle, setIsGoogle] = useState(false);
-
-  const url = process.env.NEXT_PUBLIC_SERVER_URL;
-
-  const googleHandler = () => {
-    try {
-      setIsGoogle(true);
-      router.push(`${url}/auth/google`);
-    } catch (error) {
-      toast.error("Google auth error!");
-    } finally {
-      setIsGoogle(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +59,16 @@ export default function SignupPage() {
       router.push("/explore");
     } catch (err) {
       toast.error("Something went wrong. Please try again later.");
+    }
+  };
+
+  const url = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  const googleHandler = () => {
+    try {
+      router.push(`${url}/auth/google`);
+    } catch (error) {
+      toast.error("Google auth error!");
     }
   };
 

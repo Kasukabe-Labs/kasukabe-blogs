@@ -26,6 +26,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Blog {
   title: string;
@@ -148,9 +149,12 @@ export default function BlogEditorPage() {
       <div className="px-4 space-y-2">
         <div className="flex items-center gap-4">
           <Avatar>
-            <AvatarImage src={blog.author.pfp} />
-            <AvatarFallback>{blog.author.name}</AvatarFallback>
+            <AvatarImage src={blog.author.pfp} alt={blog.author.name} />
+            <AvatarFallback>
+              {blog.author.name?.charAt(0)?.toUpperCase()}
+            </AvatarFallback>
           </Avatar>
+
           <div>
             <h2 className="text-lg font-semibold">{blog.author.name}</h2>
             <p className="text-sm text-gray-500">

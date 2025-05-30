@@ -174,7 +174,7 @@ export const googleAuthCallback = async (req: Request, res: Response) => {
         email: googleUser.email,
         pfp: googleUser.picture,
         name: googleUser.name,
-        password: "GOOGLE_USER",
+        google: true,
         role: "user",
       });
     }

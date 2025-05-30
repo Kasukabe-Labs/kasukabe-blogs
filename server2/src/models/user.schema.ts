@@ -14,16 +14,22 @@ const UserSchema = new Schema<IUser>(
     },
     pfp: {
       type: String,
-      default: "https://github.com/shadcn.png"
+      default: "https://github.com/shadcn.png",
     },
     password: {
       type: String,
-      required: true,
+      required: function (this: any) {
+        return !this.google;
+      },
     },
     role: {
       type: String,
       enum: ["admin", "user"],
       default: "user",
+    },
+    google: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

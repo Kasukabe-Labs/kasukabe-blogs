@@ -7,6 +7,8 @@ import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { FaGoogle } from "react-icons/fa6";
+import { Separator } from "@/components/ui/separator";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -38,8 +40,6 @@ export default function LoginPage() {
         return;
       }
 
-      const { accessToken } = data;
-
       toast.success("Login successful");
       router.push("/write");
     } catch (err) {
@@ -47,16 +47,32 @@ export default function LoginPage() {
     }
   };
 
+  const url = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  const googleHandler = () => {
+    try {
+      router.push(`${url}/auth/google`);
+    } catch (error) {
+      toast.error("Google auth error!");
+    }
+  };
+
   return (
     <div className="min-h-screen w-full flex items-center justify-center flex-col">
+      <div className="w-full max-w-xs text-left">
+        <h1 className="heading">Login</h1>
+        <p className="tracking-tight text-gray-500">
+          Get started with your credentials
+        </p>
+        <Button className="w-full cursor-pointer mt-4" onClick={googleHandler}>
+          Enter with Google <FaGoogle />
+        </Button>
+        <Separator className="mt-6" />
+      </div>
       <form
         onSubmit={handleLogin}
         className="flex flex-col space-y-2 w-full max-w-sm p-4 text-left"
       >
-        <h1 className="heading">Login</h1>
-        <p className="tracking-tight text-gray-500">
-          Login to access your account
-        </p>
         <div className="mt-6 space-y-4">
           <Input
             type="email"
