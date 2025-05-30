@@ -115,8 +115,10 @@ export default function BlogPage() {
       <EditorContent editor={editor} />
 
       <div className="mt-10 flex flex-wrap gap-2">
-        {blog.tags.map((tag) => (
-          <Badge variant={"secondary"}>{tag.name}</Badge>
+        {blog.tags.map((tag, index) => (
+          <Badge key={index} variant={"secondary"}>
+            {tag.name}
+          </Badge>
         ))}
       </div>
     </div>

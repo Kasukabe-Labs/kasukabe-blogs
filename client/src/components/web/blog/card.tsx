@@ -29,7 +29,7 @@ export default function BlogCard({
 
   const pathname = usePathname();
 
-  let href = pathname.includes("dashboard/myBlogs")
+  const href = pathname.includes("dashboard/myBlogs")
     ? `/dashboard/myBlogs/${slug}`
     : `/explore/${slug}`;
 

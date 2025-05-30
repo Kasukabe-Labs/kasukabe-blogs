@@ -9,7 +9,7 @@ import { bgColors } from "@/components/web/ExplorePage";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function page() {
+export default function MyBlogs() {
   const [blogs, setBlogs] = useState<Blog[] | null>(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function page() {
       {!blogs && (
         <div className="flex flex-col items-center justify-center mt-6 p-4 border border-muted rounded-md space-y-4">
           <p className="text-md tracking-tighter">
-            You don't have any blogs right now
+            You don&apos;t have any blogs right now
           </p>
           <Link href={"/write"}>
             <Button className="cursor-pointer">Start writing</Button>
