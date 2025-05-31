@@ -50,11 +50,13 @@ export default function Navbar() {
             Write
           </Button>
         </Link>
-        <Link href={"/dashboard"}>
-          <Button className="cursor-pointer" size={"sm"} variant={"link"}>
-            Dashboard
-          </Button>
-        </Link>
+        {user && (
+          <Link href={"/dashboard"}>
+            <Button className="cursor-pointer" size={"sm"} variant={"link"}>
+              Dashboard
+            </Button>
+          </Link>
+        )}
       </div>
       <div className="gap-4 flex justify-center items-center">
         {loading ? (

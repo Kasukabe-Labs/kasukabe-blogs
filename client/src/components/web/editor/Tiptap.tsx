@@ -12,10 +12,14 @@ import { toast } from "sonner";
 import { predefinedTags } from "@/helpers/tags";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import PublishSection from "./PublishSection";
+import { useAuth } from "@/hooks/useAuth";
+import { AlertDialogDemo } from "../auth/AlertDialogDemo";
 
 const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/create`;
 
 const Tiptap = () => {
+  const { user } = useAuth();
+
   const CustomHighlight = Highlight.extend({
     addKeyboardShortcuts() {
       return {
@@ -30,6 +34,7 @@ const Tiptap = () => {
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [customTag, setCustomTag] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const savedContent =
@@ -125,6 +130,10 @@ const Tiptap = () => {
   };
 
   const handlePublish = async () => {
+    if (!user) {
+      setShowAlert(true);
+      return;
+    }
     const content = localStorage.getItem("content");
 
     if (!content || !title.trim()) {
@@ -173,6 +182,10 @@ const Tiptap = () => {
         title={title}
         toggleTag={toggleTag}
       />
+
+      {showAlert && (
+        <AlertDialogDemo open={showAlert} onOpenChange={setShowAlert} />
+      )}
       <MenuBar editor={editor} />
 
       <EditorContent editor={editor} />
