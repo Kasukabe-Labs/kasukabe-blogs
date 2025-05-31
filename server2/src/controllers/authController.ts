@@ -184,7 +184,19 @@ export const googleAuthCallback = async (req: Request, res: Response) => {
 
     sendToken(res, accessToken, refreshToken, "Google login successful");
 
-    res.redirect(`${process.env.CLIENT_URL}/explore`);
+    res.send(`
+      <html>
+        <head>
+          <meta http-equiv="refresh" content="0; URL='${process.env.CLIENT_URL}/explore'" />
+          <script>
+            window.location.href = '${process.env.CLIENT_URL}/explore';
+          </script>
+        </head>
+        <body>
+          Redirecting...
+        </body>
+      </html>
+    `);
     return;
   } catch (error) {
     console.error("Google Auth Error:", error);
