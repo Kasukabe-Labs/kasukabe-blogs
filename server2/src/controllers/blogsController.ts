@@ -215,7 +215,7 @@ export const updateBlogController = async (req: AuthRequest, res: Response) => {
 
     existingBlog.isPublished = isPublished;
     existingBlog.isDraft = !isPublished;
-    existingBlog.publishedAt = isPublished ? new Date() : undefined;
+    // existingBlog.publishedAt = isPublished ? new Date() : undefined;
 
     existingBlog.updatedAt = new Date();
 
