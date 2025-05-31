@@ -7,9 +7,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export function AlertDialogDemo({
@@ -20,10 +18,7 @@ export function AlertDialogDemo({
   onOpenChange: (open: boolean) => void;
 }) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Write a Blog</Button>
-      </AlertDialogTrigger>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="text-lg font-semibold">
@@ -35,8 +30,8 @@ export function AlertDialogDemo({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Close</AlertDialogCancel>
-          <AlertDialogAction>
-            <Link href={"/login"}>Sign In</Link>
+          <AlertDialogAction asChild>
+            <Link href="/login">Sign In</Link>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
