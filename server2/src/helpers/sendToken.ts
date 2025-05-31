@@ -8,20 +8,30 @@ export const sendToken = (
 ) => {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    secure: true, // ✅ this must be true in production (over HTTPS)
+    sameSite: "none", // ✅ this allows cookies to be sent cross-site
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-    maxAge: 15 * 60 * 1000, // 15 min
+    secure: true, // ✅
+    sameSite: "none", // ✅
+    maxAge: 15 * 60 * 1000,
   });
-
-  // res.status(200).json({
-  //   message:
-  //     message || "Login successfull & both tokens set as httpOnly cookies",
-  // });
 };
+
+//development code:
+// res.cookie("refreshToken", refreshToken, {
+//     httpOnly: true,
+//     secure: false,
+//     sameSite: "lax",
+//     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//   });
+
+//   res.cookie("accessToken", accessToken, {
+//     httpOnly: true,
+//     secure: false,
+//     sameSite: "lax",
+//     maxAge: 15 * 60 * 1000, // 15 min
+//   });

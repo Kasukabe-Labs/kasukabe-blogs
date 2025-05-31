@@ -97,7 +97,7 @@ export default function BlogPage() {
   if (!blog) return <div className="text-center p-10">Blog not found</div>;
 
   return (
-    <div className="max-w-5xl mx-auto px-6 pt-14 pb-8 space-y-6">
+    <div className="max-w-5xl mx-auto px-6 pt-24 pb-8 space-y-6">
       <div className="flex items-center gap-4">
         <Avatar>
           <AvatarImage src={blog.author.pfp} />
