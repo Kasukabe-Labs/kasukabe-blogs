@@ -20,12 +20,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full relative">
+      <div className="flex min-h-screen w-full">
         <AppSidebar
           activeSection={activeSection}
           setActiveSection={setActiveSection}
         />
-        <main className="flex-1 p-4 relative">
+        <main className="p-4 w-full mx-auto space-y-4 relative">
           <SidebarTrigger className="z-50" />
           <BreadcrumbLayer />
           {children}

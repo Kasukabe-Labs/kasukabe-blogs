@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,6 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function Navbar() {
   const router = useRouter();
-
   const { user, loading, setUser } = useAuth();
 
   const handleLogout = async () => {
@@ -38,27 +37,28 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex justify-between items-center w-full h-16 absolute border-b z-20 px-4">
-      <div className="gap-4 flex justify-center items-center">
-        <Link href={"/explore"}>
-          <Button className="cursor-pointer" size={"sm"} variant={"link"}>
+    <nav className="w-full border-b px-2 py-2 flex flex-wrap justify-between items-center gap-4 sm:gap-6 md:h-16 z-20 bg-background">
+      <div className="flex flex-wrap gap-2 sm:gap-4 items-center">
+        <Link href="/explore">
+          <Button size="sm" variant="link">
             Explore
           </Button>
         </Link>
-        <Link href={"/write"}>
-          <Button className="cursor-pointer" size={"sm"} variant={"link"}>
+        <Link href="/write">
+          <Button size="sm" variant="link">
             Write
           </Button>
         </Link>
         {user && (
-          <Link href={"/dashboard"}>
-            <Button className="cursor-pointer" size={"sm"} variant={"link"}>
+          <Link href="/dashboard">
+            <Button size="sm" variant="link">
               Dashboard
             </Button>
           </Link>
         )}
       </div>
-      <div className="gap-4 flex justify-center items-center">
+
+      <div className="flex gap-2 sm:gap-4 items-center">
         {loading ? (
           <Skeleton className="h-10 w-10 rounded-full" />
         ) : (
@@ -69,13 +69,8 @@ export default function Navbar() {
         )}
 
         {user ? (
-          <Button
-            className="cursor-pointer"
-            size="sm"
-            variant="destructive"
-            onClick={handleLogout}
-          >
-            <LogOut />
+          <Button size="sm" variant="destructive" onClick={handleLogout}>
+            <LogOut className="w-4 h-4" />
           </Button>
         ) : (
           <Link href="/signup">
@@ -85,6 +80,6 @@ export default function Navbar() {
           </Link>
         )}
       </div>
-    </div>
+    </nav>
   );
 }

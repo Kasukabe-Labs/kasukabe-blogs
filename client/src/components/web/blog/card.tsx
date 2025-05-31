@@ -34,10 +34,12 @@ export default function BlogCard({
     : `/explore/${slug}`;
 
   return (
-    <div className="w-full  p-4 border rounded-md">
+    <div className="w-full p-4 border rounded-md">
       <Link href={href} className="cursor-pointer">
         <div className="h-full flex flex-col">
-          <div className={cn(bgColor, "w-72 h-72 rounded-sm mb-4")}></div>
+          <div
+            className={cn(bgColor, "w-full aspect-square rounded-sm mb-4")}
+          ></div>
 
           {/* Title */}
           <h2 className="text-lg font-normal tracking-tight max-w-72 truncate">
@@ -48,24 +50,6 @@ export default function BlogCard({
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
             {formattedDate}
           </p>
-
-          {/* maybe later 🙂 */}
-          {/* {pathname.includes("dashboard") && (
-            <div className="mt-4 flex justify-between items-center border-t pt-4 border-border">
-              <Button
-                variant="outline"
-                className="text-sm px-4 py-2 hover:bg-muted transition"
-              >
-                Edit
-              </Button>
-              <Button
-                variant="destructive"
-                className="text-sm px-4 py-2 hover:opacity-90 transition"
-              >
-                Delete
-              </Button>
-            </div>
-          )} */}
         </div>
       </Link>
     </div>

@@ -24,7 +24,7 @@ export default function MyBlogs() {
   }, []);
 
   return (
-    <div className="w-full justify-center items-center flex flex-col h-screen">
+    <div className="w-full justify-center items-center flex flex-col pt-4 pb-12 min-h-[calc(100vh-4rem)]">
       <h1 className="heading">My Blogs</h1>
       {!blogs && (
         <div className="flex flex-col items-center justify-center mt-6 p-4 border border-muted rounded-md space-y-4">
