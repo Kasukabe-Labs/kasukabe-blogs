@@ -131,6 +131,7 @@ const Tiptap = () => {
 
   const handlePublish = async () => {
     if (!user) {
+      setShowModal(false);
       setShowAlert(true);
       return;
     }
