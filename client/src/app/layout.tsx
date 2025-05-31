@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "Kasukabe Blogs",
     images: [
       {
-        url: "/thumbnail.png",
+        url: "https://github.com/Kasukabe-Labs/kasukabe-blogs/blob/main/client/public/thumbnail.PNG",
         width: 1200,
         height: 630,
         alt: "Kasukabe Blogs - Minimal blogging application with notion like editor",
