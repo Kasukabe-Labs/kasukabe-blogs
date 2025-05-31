@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaGoogle } from "react-icons/fa6";
 import { Separator } from "@/components/ui/separator";
+import axios from "axios";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -66,7 +67,9 @@ export default function SignupPage() {
 
   const googleHandler = () => {
     try {
-      router.push(`${url}/auth/google`);
+      const response = axios.get(`${url}/auth/google`, {
+        withCredentials: true,
+      });
     } catch (error) {
       toast.error("Google auth error!");
     }
