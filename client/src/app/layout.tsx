@@ -7,8 +7,54 @@ import NavbarProvider from "@/providers/NavbarProvider";
 import BreadcrumbLayer from "@/components/web/BreadcrumbLayer";
 
 export const metadata: Metadata = {
-  title: "Kasukabe Blogs",
-  description: "minimal cms blog platform",
+  title: {
+    default: "Kasukabe Blogs",
+    template: "%s | Kasukabe Blogs",
+  },
+  description: "Minimal blogging application with notion like editor",
+  keywords: [
+    "blog",
+    "blogging",
+    "notion",
+    "editor",
+    "minimal",
+    "writing",
+    "kasukabe",
+  ],
+  authors: [{ name: "Kasukabe Blogs" }],
+  creator: "Subhraneel Goswami",
+  publisher: "Kasukabe Blogs",
+
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://kasukabe-blogs-prod.vercel.app",
+    title: "Kasukabe Blogs",
+    description: "Minimal blogging application with notion like editor",
+    siteName: "Kasukabe Blogs",
+    images: [
+      {
+        url: "https://kasukabe-blogs-prod.vercel.app/thumbnail.png",
+        width: 1200,
+        height: 630,
+        alt: "Kasukabe Blogs - Minimal blogging application with notion like editor",
+        type: "image/png",
+      },
+    ],
+  },
+
+  // Twitter Card metadata
+  twitter: {
+    card: "summary_large_image",
+    title: "Kasukabe Blogs",
+    description: "Minimal blogging application with notion like editor",
+    images: [
+      {
+        url: "https://kasukabe-blogs-prod.vercel.app/thumbnail.png",
+        alt: "Kasukabe Blogs - Minimal blogging application with notion like editor",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
