@@ -33,9 +33,6 @@ export default function BlogPage() {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const pathname = usePathname();
-  const currentPageUrl = `${process.env.NEXT_PUBLIC_CLIENT_URL}${pathname}`;
-
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -109,7 +106,10 @@ export default function BlogPage() {
             {format(new Date(blog.publishedAt), "PPP")}
           </p>
         </div>
-        <Share url={currentPageUrl} username={blog.author.name} />
+        <Share
+          url={`${process.env.NEXT_PUBLIC_CLIENT_URL}/preview/${blog.slug}}`}
+          username={blog.author.name}
+        />
       </div>
 
       <EditorContent editor={editor} />

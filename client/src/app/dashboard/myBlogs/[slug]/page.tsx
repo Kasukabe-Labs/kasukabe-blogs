@@ -26,7 +26,6 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface Blog {
   title: string;
@@ -46,9 +45,7 @@ export default function BlogEditorPage() {
   const { slug } = useParams();
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
-  const pathname = usePathname();
   const router = useRouter();
-  const currentPageUrl = `${process.env.NEXT_PUBLIC_CLIENT_URL}${pathname}`;
 
   const editor = useEditor({
     extensions: [
@@ -161,7 +158,10 @@ export default function BlogEditorPage() {
               {format(new Date(blog.publishedAt), "PPP")}
             </p>
           </div>
-          <Share url={currentPageUrl} username={blog.author.name} />
+          <Share
+            url={`${process.env.NEXT_PUBLIC_CLIENT_URL}/preview/${blog.slug}}`}
+            username={blog.author.name}
+          />
         </div>
         <div className="flex flex-wrap gap-2">
           {blog.tags.map((tag) => (
