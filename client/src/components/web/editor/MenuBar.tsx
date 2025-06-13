@@ -6,6 +6,7 @@ import {
   AlignRight,
   Bold,
   Code,
+  Code2,
   Heading1,
   Heading2,
   Heading3,
@@ -14,6 +15,7 @@ import {
   Highlighter,
   Image,
   Italic,
+  Link,
   List,
   ListOrdered,
   Quote,
@@ -22,7 +24,7 @@ import {
   Text,
   Undo,
 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Editor } from "@tiptap/react";
 import {
   Popover,
@@ -36,8 +38,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function MenuBar({ editor }: { editor: Editor | null }) {
+  const [linkUrl, setLinkUrl] = useState("");
+  const [linkText, setLinkText] = useState("");
+  const [isLinkPopoverOpen, setIsLinkPopoverOpen] = useState(false);
+
   if (!editor) {
     return null;
   }
@@ -51,6 +59,34 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
     { name: "Rust Orange", color: "#b45309" },
     { name: "Forest Green", color: "#166534" },
   ];
+
+  const handleLinkSubmit = () => {
+    if (linkUrl) {
+      const { from, to } = editor.state.selection;
+      const selectedText = editor.state.doc.textBetween(from, to, "");
+
+      if (selectedText) {
+        // If text is selected, just add the link
+        editor.chain().focus().setLink({ href: linkUrl }).run();
+      } else {
+        // If no text is selected, insert link with custom text or URL as text
+        const displayText = linkText || linkUrl;
+        editor
+          .chain()
+          .focus()
+          .insertContent(`<a href="${linkUrl}">${displayText}</a>`)
+          .run();
+      }
+
+      setLinkUrl("");
+      setLinkText("");
+      setIsLinkPopoverOpen(false);
+    }
+  };
+
+  const removeLinkFromSelection = () => {
+    editor.chain().focus().unsetLink().run();
+  };
 
   const Options = [
     {
@@ -108,16 +144,98 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
       title: "Strikethrough",
     },
     {
+      icon: <Code2 className="size-4" />,
+      onClick: () => editor.chain().focus().toggleCode().run(),
+      pressed: editor.isActive("code"),
+      title: "Inline Code",
+    },
+    {
       icon: <Code className="size-4" />,
-      onClick: () => editor.chain().focus().setCodeBlock().run(),
+      onClick: () => editor.chain().focus().toggleCodeBlock().run(),
       pressed: editor.isActive("codeBlock"),
       title: "Code Block",
     },
     {
       icon: <Quote className="size-4" />,
-      onClick: () => editor.chain().focus().setBlockquote().run(),
+      onClick: () => editor.chain().focus().toggleBlockquote().run(),
       pressed: editor.isActive("blockquote"),
       title: "Quote",
+    },
+    {
+      icon: (
+        <Popover open={isLinkPopoverOpen} onOpenChange={setIsLinkPopoverOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`size-8 h-8 w-8 ${
+                editor.isActive("link") ? "bg-zinc-200" : ""
+              }`}
+            >
+              <Link className="size-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80 p-4 space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="link-url" className="text-sm font-medium">
+                URL
+              </Label>
+              <Input
+                id="link-url"
+                type="url"
+                placeholder="https://example.com"
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleLinkSubmit();
+                  }
+                }}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="link-text" className="text-sm font-medium">
+                Link Text (optional)
+              </Label>
+              <Input
+                id="link-text"
+                type="text"
+                placeholder="Enter link text"
+                value={linkText}
+                onChange={(e) => setLinkText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleLinkSubmit();
+                  }
+                }}
+              />
+              <p className="text-xs text-gray-500">
+                Leave empty to use URL as text, or select text first then add
+                link
+              </p>
+            </div>
+
+            <div className="flex gap-2">
+              <Button size="sm" onClick={handleLinkSubmit} disabled={!linkUrl}>
+                Add Link
+              </Button>
+              {editor.isActive("link") && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={removeLinkFromSelection}
+                >
+                  Remove Link
+                </Button>
+              )}
+            </div>
+          </PopoverContent>
+        </Popover>
+      ),
+      onClick: () => {},
+      pressed: editor.isActive("link"),
+      title: "Link",
     },
     {
       icon: <Undo className="size-4" />,
@@ -131,78 +249,6 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
       pressed: editor.isActive("redo"),
       title: "Redo",
     },
-    // {
-    //   icon: (
-    //     <Popover>
-    //       <PopoverTrigger asChild>
-    //         <Button
-    //           variant="ghost"
-    //           size="icon"
-    //           className={`size-4 ${
-    //             editor.isActive("image") ? "bg-zinc-200" : ""
-    //           }`}
-    //         >
-    //           <Image className="size-4" />
-    //         </Button>
-    //       </PopoverTrigger>
-    //       <PopoverContent className="w-72 p-4 space-y-4">
-    //         <div>
-    //           <label className="block text-sm font-medium mb-1">
-    //             Image URL
-    //           </label>
-    //           <input
-    //             type="text"
-    //             placeholder="https://example.com/image.jpg"
-    //             className="w-full border border-zinc-300 rounded-md px-2 py-1 text-sm"
-    //             onKeyDown={(e) => {
-    //               if (e.key === "Enter") {
-    //                 const target = e.target as HTMLInputElement;
-    //                 if (target.value) {
-    //                   editor
-    //                     ?.chain()
-    //                     .focus()
-    //                     .setImage({ src: target.value })
-    //                     .run();
-    //                   target.value = "";
-    //                 }
-    //               }
-    //             }}
-    //           />
-    //         </div>
-
-    //         <div>
-    //           <label className="block text-sm font-medium mb-1">
-    //             Upload from Device
-    //           </label>
-    //           <input
-    //             type="file"
-    //             accept="image/*"
-    //             className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-zinc-100 file:text-zinc-700 hover:file:bg-zinc-200"
-    //             onChange={(e) => {
-    //               const file = e.target.files?.[0];
-    //               if (file) {
-    //                 const reader = new FileReader();
-    //                 reader.onload = () => {
-    //                   if (typeof reader.result === "string") {
-    //                     editor
-    //                       ?.chain()
-    //                       .focus()
-    //                       .setImage({ src: reader.result })
-    //                       .run();
-    //                   }
-    //                 };
-    //                 reader.readAsDataURL(file);
-    //               }
-    //             }}
-    //           />
-    //         </div>
-    //       </PopoverContent>
-    //     </Popover>
-    //   ),
-    //   onClick: () => {},
-    //   pressed: editor.isActive("image"),
-    //   title: "Image",
-    // },
     {
       icon: <SeparatorHorizontal className="size-4" />,
       onClick: () => editor.chain().focus().setHardBreak().run(),
@@ -216,7 +262,9 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
             <Button
               variant="ghost"
               size="icon"
-              className={`size-4 ${editor.isActive("highlight")}`}
+              className={`size-8 h-8 w-8 ${
+                editor.isActive("highlight") ? "bg-zinc-200" : ""
+              }`}
             >
               <Highlighter className="size-4" />
             </Button>
@@ -239,7 +287,6 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
       pressed: editor.isActive("highlight"),
       title: "Highlight",
     },
-
     {
       icon: <List className="size-4" />,
       onClick: () => editor.chain().focus().toggleBulletList().run(),

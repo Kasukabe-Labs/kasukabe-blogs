@@ -6,6 +6,9 @@ import TextAlign from "@tiptap/extension-text-align";
 import MenuBar from "./MenuBar";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { common, createLowlight } from "lowlight";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
@@ -16,6 +19,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { AlertDialogDemo } from "../auth/AlertDialogDemo";
 
 const URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/create`;
+
+// Create lowlight instance with common languages
+const lowlight = createLowlight(common);
 
 const Tiptap = () => {
   const { user } = useAuth();
@@ -55,6 +61,13 @@ const Tiptap = () => {
             class: "list-decimal ml-5",
           },
         },
+        code: {
+          HTMLAttributes: {
+            class: "bg-gray-100 px-1 py-0.5 rounded text-sm font-mono",
+          },
+        },
+        // Disable the default CodeBlock to use CodeBlockLowlight instead
+        codeBlock: false,
       }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
@@ -70,6 +83,19 @@ const Tiptap = () => {
         allowBase64: true,
         HTMLAttributes: {
           class: "max-w-[30%] h-auto",
+        },
+      }),
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: "text-blue-600 underline hover:text-blue-800 cursor-pointer",
+        },
+        validate: (href) => /^https?:\/\//.test(href),
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        HTMLAttributes: {
+          class: "bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto",
         },
       }),
       Placeholder.configure({
